@@ -1,0 +1,347 @@
+	
+
+		Java Technology
+			|
+	-------------------------------------
+	|		|		|
+	JSE		JEE		JME
+	|		|
+core java	---------------------	
+language fundas		|	|
+oops concepts		WEB	EJBeans/class/component
+packages		|	 |
+exception handling	servlets |	
+multithreading		JSP	-----------------
+generics			|	|	|
+collections			Session Entity	Message
+file i/o			|	|persistence |JMS
+jdbc			------------	------	 -----------
+|			|	|	|   |	 |	|
+adv java	stateless-> stateful   BMP CMP	SMS	Mail
+|		airindia
+|		flightenquiry
+|		3 rows
+|
+socket programming
+RMI
+ remote method invocation
+
+	
+	FlightBooking f = new FlightBooking()-->
+	Passenger p = new Passenger(); ->
+	Ticket t = new Ticket(); =->
+	..
+	..
+	..
+
+	Framework = semideveloped application
+
+
+
+	insert into dept values (?,?,?)
+	insert into emp  values (?,?,?,?,?)
+	<--------->      <----------->
+
+
+@Entity
+@Table(name="employee")
+class Emp <-- identified by its primary key - entity
+{
+	@Id
+	int empno; <-- primary key
+	
+	String empname;
+	float salary;
+
+}
+
+	insert into employee values (......);
+
+
+
+	employee
+empno	ename	salary
+1	jack	5000
+2	jack	6000
+
+
+	x   B	1 jack	
+	x   C	2 jack
+	x   A	1 jack
+	x   A   2 jack
+	x   B   3
+	<------->
+
+
+
+		ASSOCATION 
+			|
+	------------------------------------
+	|	|	|	|
+	isA	hasA	usesA	producesA
+
+
+	class Tub { }
+	class WashingTub extends Tub { } //isA
+
+
+	class Powder { }
+	class WashingPowder extends Powder { } //isA
+
+	class Machine { }
+	class WashingMachine extends Machine { //isA
+
+	    WAshingTub washTub = new WashingTub(); //hasA
+	
+	//producesA		usesA	usesA	usesA		usesA
+	    Laundry wash(Water w, Electricity e, Cloth cl[], WashingPowder wp) {
+	    
+	
+		Laundry laundry = new Laundry();
+		laundry.setter... num cloths * cost per item	
+		return laundry;
+	    }
+		
+	}
+
+
+
+	class WashingProgram
+	{
+		p s v main() {
+
+			WashingMachine washMach = new WashingMachine();
+			Water w = new Water();
+			Electricity el = new Electricity();
+			Cloth cl [] = { };
+			WashingPowder washPow = new WashingPowder();
+			
+			Laundry laundry = washMach.wash(w, el, cl, washPow);
+		}
+	}
+
+
+
+
+
+-----------------------------------------------------
+
+
+	Servlets
+	----------
+
+		- to make dynamic web output
+
+
+		web output
+			|
+			|
+		----------------------
+		|		|
+		static		dynamic
+		|			|
+		abc.html		......
+		--------		-----------
+		<html>			<html>
+		<h1> hello </h1>	 <h1> hello </h1>
+		</html>			</html>
+
+
+
+
+https://github.com/vishhaldawane/AdvancedJavaLIC/blob/main/InterfaceTest.java
+
+
+		
+
+
+
+
+Day2
+-----
+			Instrument
+			|a(); b(); c(); d(); e();
+		---------------
+		|
+		StringBasedMusicalInstrument
+		|a(){} b(){}  d(){} e(){}
+	-------------------
+	|		|
+	Guitar*		Violin
+			| a(){} B(){} c(){} d(){} e(){}
+			| x(){c();} y(){c();}
+			|
+			Cello*
+			x(){} y(){}
+	
+	javax.servlet	Servlet
+			| void init(ServletConfig);
+			| void service(ServletRequest, ServletResponse);
+			| void destroy();
+			| String getServletInfo();
+			| ServletConfig getServletConfig();
+		-------------------
+		|
+		GenericServlet
+		|
+	-------------------------
+	|		|
+YourServlet1		HttpServlet
+			|
+			YourServlet2
+
+
+	
+	1. write a class that inherits 
+		from javax.servlet.http.HttpServlet class
+
+
+	2. override the doGet() or doPost()
+
+	3. where to make this class??????
+
+
+
+	International standard directory structure
+	for java web application
+
+
+eclipse netbeans intellij  sts ... .. .. notepad...
+
+1. developer structure 
+		AirlineApp
+		|
+	----------------------
+	|
+	WebContent
+	|
+	------------
+	|	|
+	src	WEB-INF
+
+2. deployment structure
+
+		   AirlineApp
+			|
+		--------------------------------------------
+		|		|	|	|
+		WEB-INF		myjsps	myhtmls	myjs
+		|		|	|	  |
+	------------------	*.jsp  *.html/css *.js
+	|	 |	|
+	classes	lib	web.xml -- deployment descriptor
+	|	|		 to help tomcat to know
+your servlet 	*.jar		the details of your app
+must be here
+
+
+
+	jar -cvf jungle.jar  *.class
+
+	jar -tvf jungle.jar  -- to view the table of contents
+	
+	jar -xvf jungle.jar
+
+
+
+		Java programs
+			|
+	---------------------------------------
+	|		|		|
+	application	applet		servlet
+	|		|		|
+	main()		life cycle	life cycle
+			methods		method
+					|
+					init()
+					service()
+					destroy()
+
+					DB
+		Web Server		|
+		| aPATCHE + TOMCAT [ SERVLET CONTAINER ] 
+		| http server	|
+	-----------------	AirlineApp
+	|				|
+	Web Browser		-----------------
+	|			|		|
+	Web Client		WEB-INF		web.xml
+	|			classes/servlets mappings
+	|
+http://server:8080/AirlineApp/index.jsp
+
+<a href='http://server:8080/AirlineApp/flightEnquiry'> Flight Enquiry </a>
+
+http://server:8080/AirlineApp/bookTicket
+<----------------><------tomcat----->
+
+
+WEBLOGIC
+GLASSFISH
+IBM-WEBSPHERE
+JBOSS
+
+
+
+
+		BankApp					DB -- balance
+		| Enterprise Application Server		|
+		|	Webcontainer	Enterprise-Container
+		|
+	--------------------------------------------------
+	|	|	|	|	|	|
+	ATM	PC	VISA	IVR	SMS	AndroidApp
+	|	|	|	|	 |	  |
+	app	browser card	listen	send sms app
+		|	swipe   to menu 
+		https
+
+		icicibank.com
+
+
+	1. sts
+	2. apache+tomcat
+	3. browser
+	4. servlet api
+
+http://localhost:8080/MyAirlineApp/enquiry?src=Mumbai&trg=London
+
+
+							2kb				1kb					
+http://server:8080/AirlineApp/enquiry?source=Mumbai&target=London&date=12/Dec/2021|meta data
+				     <--------------your data ------------------->	
+									
+
+	
+					
+					1kb		5mb
+http://server:8080/AirlineApp/enquiry?metadata|source=Mumbai&target=London&date=12/Dec/2021|meta data
+				       1kb     <--------------your data ------------------->	
+
+
+
+
+1. DATABASE - tables
+2. pojos - entities - plain old java objects
+3. Data Access Object - repositories
+4. business service - business logic
+5. controller
+6. UI - angular / react / JSP
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
