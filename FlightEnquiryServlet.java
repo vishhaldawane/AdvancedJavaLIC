@@ -1,5 +1,6 @@
 package com.java.layer5;
 
+import java.util.Iterator;
 import java.util.List;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -54,6 +55,43 @@ public class FlightEnquiryServlet extends HttpServlet {
 		List<Flight> flightList = flightRepo.searchFlights();
 		//List<Flight> flightListToShow = new ArrayList<Flight>();
 		pw.println("<table border=3 cellspacing=5 cellpadding=5>");
+		
+/*		for (Iterator iterator = flightList.iterator(); iterator.hasNext();) {
+			Flight flight = (Flight) iterator.next();
+				//if condition 
+			
+		}
+	*/
+		//Head First Java
+		
+	/*	Iterator<Flight> iterator = flightList.iterator();
+
+		while(iterator.hasNext()) {
+			Flight theFlight = iterator.next();
+			if(theFlight.getFlightSource().equalsIgnoreCase(source) && theFlight.getFlightDestination().equals(target)) {
+				pw.println("<tr>");
+				pw.println("<td>"+theFlight.getFlightNumber()+"</td>");
+				pw.println("<td>"+theFlight.getFlightSource()+"</td>");
+				pw.println("<td>"+theFlight.getFlightDestination()+"</td>");
+				pw.println("<td>"+theFlight.getFlightDepartureDate()+"</td>");
+				pw.println("</tr>");
+			}
+			
+		}
+		*/
+		
+		
+		/*for(int i=0;i<flightList.size();i++) {
+			Flight theFlight = flightList.get(i);
+			if(theFlight.getFlightSource().equalsIgnoreCase(source) && theFlight.getFlightDestination().equals(target)) {
+				pw.println("<tr>");
+				pw.println("<td>"+theFlight.getFlightNumber()+"</td>");
+				pw.println("<td>"+theFlight.getFlightSource()+"</td>");
+				pw.println("<td>"+theFlight.getFlightDestination()+"</td>");
+				pw.println("<td>"+theFlight.getFlightDepartureDate()+"</td>");
+				pw.println("</tr>");
+			}
+		}*/
 		for(Flight theFlight : flightList) {
 			if(theFlight.getFlightSource().equalsIgnoreCase(source) && theFlight.getFlightDestination().equals(target)) {
 				pw.println("<tr>");
