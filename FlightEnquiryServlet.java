@@ -92,17 +92,18 @@ public class FlightEnquiryServlet extends HttpServlet {
 				pw.println("</tr>");
 			}
 		}*/
-		for(Flight theFlight : flightList) {
-			if(theFlight.getFlightSource().equalsIgnoreCase(source) && theFlight.getFlightDestination().equals(target)) {
+		List<Flight> foundFlights = flightRepo.searchFlights(source, target);
+		
+		for(Flight theFlight : foundFlights) {
 				pw.println("<tr>");
 				pw.println("<td>"+theFlight.getFlightNumber()+"</td>");
 				pw.println("<td>"+theFlight.getFlightSource()+"</td>");
 				pw.println("<td>"+theFlight.getFlightDestination()+"</td>");
 				pw.println("<td>"+theFlight.getFlightDepartureDate()+"</td>");
 				pw.println("</tr>");
-			}
 		}
 		pw.println("</table>");
+		pw.println("<a href='http://localhost:8080/MyAirlineApp'> Back </a>");
 		
 	}
 
