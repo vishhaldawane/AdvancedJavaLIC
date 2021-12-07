@@ -67,5 +67,17 @@ public class FlightRepositoryImpl implements FlightRepository {
 		
 		return flightList;
 	}
+	@Override
+	public List<Flight> searchFlights(String source, String target) {
+		
+		List<Flight> foundFlights = new ArrayList<Flight>();
+		
+		for(Flight theFlight : flightList) {
+			if(theFlight.getFlightSource().equalsIgnoreCase(source) && theFlight.getFlightDestination().equals(target)) {
+				foundFlights.add(theFlight);
+			}
+		}
+		return foundFlights;
+	}
 
 }

@@ -13,5 +13,6 @@ public interface FlightRepository {
 	void deleteFlight(int flightNumber); // D
 	Flight searchFlight(int flightNumber); //R
 	List<Flight> searchFlights(); //java.util  //RA
+	List<Flight> searchFlights(String source, String target); //java.util  //RA
 	
 }
