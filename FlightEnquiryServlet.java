@@ -4,6 +4,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.Timestamp;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -13,11 +14,12 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.java.layer2.Flight;
 import com.java.layer3.FlightRepositoryImpl;
+import com.java.layer3.FlightRepositoryImpl2;
 
 public class FlightEnquiryServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
       
-	FlightRepositoryImpl flightRepo = new FlightRepositoryImpl();
+	FlightRepositoryImpl2 flightRepo = new FlightRepositoryImpl2();
 	
     
     public FlightEnquiryServlet() {
@@ -43,11 +45,23 @@ public class FlightEnquiryServlet extends HttpServlet {
 
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+		response.setContentType("text/html");
+		
 		System.out.println("doGet()....."
 					+request.getRemoteAddr()
 					+" port "+request.getRemotePort());
 		String source= request.getParameter("src");
 		String target= request.getParameter("trg");
+		
+//		String dateString =	request.getParameter("jdate");
+//		System.out.println("dateString : "+dateString);
+//		
+//		Timestamp time = Timestamp.valueOf(dateString);
+		
+//		System.out.println("time : "+time);
+		
+				
 		//ctrl+shift+m
 		PrintWriter pw = response.getWriter();
 		pw.println("Customer is searching for "
