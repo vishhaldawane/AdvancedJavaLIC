@@ -7,7 +7,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import com.java.layer2.Flight;
@@ -45,7 +48,7 @@ public class FlightRepositoryImpl2 implements FlightRepository {
 			pst.setInt(1, flight.getFlightNumber());
 			pst.setString(2, flight.getFlightSource());
 			pst.setString(3, flight.getFlightDestination());
-			pst.setTimestamp(4, flight.getFlightDepartureDate());
+		//	pst.setTimestamp(4, flight.getFlightDepartureDate());
 			int rows = pst.executeUpdate(); // fire the query
 			System.out.println("Flight Record inserted...."+rows);
 		} catch (SQLException e) {
@@ -63,7 +66,7 @@ public class FlightRepositoryImpl2 implements FlightRepository {
 			
 			pst.setString(1, flight.getFlightSource());
 			pst.setString(2, flight.getFlightDestination());
-			pst.setTimestamp(3, flight.getFlightDepartureDate());
+		//	pst.setDate(3, flight.getFlightDepartureDate());
 
 			int rows = pst.executeUpdate(); // fire the query
 			System.out.println("Flight Record updated...."+rows);
@@ -105,7 +108,13 @@ public class FlightRepositoryImpl2 implements FlightRepository {
 				flightObj.setFlightNumber(result.getInt(1));
 				flightObj.setFlightSource(result.getString(2));
 				flightObj.setFlightDestination(result.getString(3));
-				flightObj.setFlightDepartureDate(result.getTimestamp(4));
+				java.sql.Date sqlDate = result.getDate(4);
+				long millis = sqlDate.getTime();
+				
+				LocalDate localDate = LocalDate.ofEpochDay(millis);
+				
+						//LocalDate.of(sqlDate.getYear(), sqlDate.getMonth(), sqlDate.)
+				flightObj.setFlightDepartureDate(localDate);
 				
 			}
 			
@@ -133,7 +142,7 @@ public class FlightRepositoryImpl2 implements FlightRepository {
 				flightObj.setFlightNumber(result.getInt(1));
 				flightObj.setFlightSource(result.getString(2));
 				flightObj.setFlightDestination(result.getString(3));
-				flightObj.setFlightDepartureDate(result.getTimestamp(4));
+				//flightObj.setFlightDepartureDate(result.getTimestamp(4));
 				flightList.add(flightObj);
 			}
 			
@@ -162,7 +171,19 @@ public class FlightRepositoryImpl2 implements FlightRepository {
 				flightObj.setFlightNumber(result.getInt(1));
 				flightObj.setFlightSource(result.getString(2));
 				flightObj.setFlightDestination(result.getString(3));
-				flightObj.setFlightDepartureDate(result.getTimestamp(4));
+			
+				java.sql.Date sqlDate = result.getDate(4);
+				System.out.println("sql date "+sqlDate);
+				
+				long millis = sqlDate.getTime();
+				Date date = new Date(millis);
+				Calendar cal = Calendar.getInstance();
+				cal.setTime(date);
+				
+				LocalDate localDate = LocalDate.of(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH)+1, cal.get(Calendar.DAY_OF_MONTH));
+				System.out.println("local date "+localDate);
+				
+				flightObj.setFlightDepartureDate(localDate);
 				foundFlights.add(flightObj);
 			}
 			
@@ -175,15 +196,51 @@ public class FlightRepositoryImpl2 implements FlightRepository {
 	}
 	
 	@Override
-	public List<Flight> searchFlights(String source, String target, Timestamp time) {
+	public List<Flight> searchFlights(String source, String target, LocalDate when) {
+		
 		List<Flight> foundFlights = new ArrayList<Flight>();
 		
-		for(Flight theFlight : flightList) {
-			if(theFlight.getFlightSource().equalsIgnoreCase(source) && theFlight.getFlightDestination().equals(target) && theFlight.getFlightDepartureDate().equals(time)) {
-				foundFlights.add(theFlight);
+		Flight flightObj = null;
+		try {
+	//3
+			Statement statement = conn.createStatement();
+			System.out.println("statement created..."+statement);
+			
+			String dateString = when.toString();
+			
+			String query = "select * from flight_details where source="+"'"+source+"'"+" and target="+"'"+target+"'"+" and to_char(departure,'yyyy-MM-dd') ="+"'"+  dateString +"'";
+			System.out.println("query "+query);
+			ResultSet result = statement.executeQuery(query);  
+			 
+			System.out.println("Got the result set : "+result);
+	
+			while(result.next()) {
+				flightObj = new Flight();
+				flightObj.setFlightNumber(result.getInt(1));
+				flightObj.setFlightSource(result.getString(2));
+				flightObj.setFlightDestination(result.getString(3));
+			
+				java.sql.Date sqlDate = result.getDate(4);
+				System.out.println("sql date "+sqlDate);
+				
+				long millis = sqlDate.getTime();
+				Date date = new Date(millis);
+				Calendar cal = Calendar.getInstance();
+				cal.setTime(date);
+				
+				LocalDate localDate = LocalDate.of(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH)+1, cal.get(Calendar.DAY_OF_MONTH));
+				System.out.println("local date "+localDate);
+				
+				flightObj.setFlightDepartureDate(localDate);
+				foundFlights.add(flightObj);
 			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 		return foundFlights;
+	
 	}
 
 }

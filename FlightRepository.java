@@ -1,5 +1,7 @@
 package com.java.layer3;
 
+import java.sql.Timestamp;
+import java.time.LocalDate;
 import java.util.List;
 
 import com.java.layer2.Flight;
@@ -14,5 +16,5 @@ public interface FlightRepository {
 	Flight searchFlight(int flightNumber); //R
 	List<Flight> searchFlights(); //java.util  //RA
 	List<Flight> searchFlights(String source, String target); //java.util  //RA
-	
+	List<Flight> searchFlights(String source, String target, LocalDate time); 
 }
