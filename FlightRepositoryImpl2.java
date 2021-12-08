@@ -19,7 +19,7 @@ public class FlightRepositoryImpl2 implements FlightRepository {
 	Connection conn;
 	
 	public FlightRepositoryImpl2() {
-		System.out.println("FlightRepositoryImpl() constructor....");
+		System.out.println("FlightRepositoryImpl2() constructor....");
 		try {
 			//1
 			DriverManager.registerDriver(new oracle.jdbc.OracleDriver());
