@@ -5,6 +5,7 @@ import java.util.List;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Timestamp;
+import java.time.LocalDate;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -54,9 +55,13 @@ public class FlightEnquiryServlet extends HttpServlet {
 		String source= request.getParameter("src");
 		String target= request.getParameter("trg");
 		
-//		String dateString =	request.getParameter("jdate");
-//		System.out.println("dateString : "+dateString);
-//		
+		String dateString =	request.getParameter("jdate");
+		CharSequence  charSeq = dateString.subSequence(0, dateString.length());
+		
+		LocalDate when = LocalDate.parse(charSeq);
+		
+		System.out.println("dateString : "+dateString);
+		
 //		Timestamp time = Timestamp.valueOf(dateString);
 		
 //		System.out.println("time : "+time);
@@ -66,7 +71,7 @@ public class FlightEnquiryServlet extends HttpServlet {
 		PrintWriter pw = response.getWriter();
 		pw.println("Customer is searching for "
 		+source+" to "+target+" flight");
-		List<Flight> flightList = flightRepo.searchFlights();
+		//List<Flight> flightList = flightRepo.searchFlights();
 		//List<Flight> flightListToShow = new ArrayList<Flight>();
 		pw.println("<table border=3 cellspacing=5 cellpadding=5>");
 		
@@ -106,7 +111,7 @@ public class FlightEnquiryServlet extends HttpServlet {
 				pw.println("</tr>");
 			}
 		}*/
-		List<Flight> foundFlights = flightRepo.searchFlights(source, target);
+		List<Flight> foundFlights = flightRepo.searchFlights(source, target, when);
 		
 		for(Flight theFlight : foundFlights) {
 				pw.println("<tr>");
