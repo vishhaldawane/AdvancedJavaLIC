@@ -1,6 +1,7 @@
 package com.java.layer2;
 
 import java.sql.Timestamp;
+import java.time.LocalDate;
 //Flight f = new Flight(101,"mumbai","London","time");
 
 public class Flight {
@@ -8,9 +9,12 @@ public class Flight {
 	private int flightNumber;
 	private String flightSource;
 	private String flightDestination;
-	private Timestamp flightDepartureDate; //java.sql
+	private LocalDate flightDepartureDate; //java.sql
 	
-	public Flight(int flightNumber, String flightSource, String flightDestination, Timestamp flightDepartureDate) {
+	public Flight() {
+		System.out.println("Flight() no arg constructor....");
+	}
+	public Flight(int flightNumber, String flightSource, String flightDestination, LocalDate flightDepartureDate) {
 		super();
 		this.flightNumber = flightNumber;
 		this.flightSource = flightSource;
@@ -42,11 +46,11 @@ public class Flight {
 		this.flightDestination = flightDestination;
 	}
 
-	public Timestamp getFlightDepartureDate() {
+	public LocalDate getFlightDepartureDate() {
 		return flightDepartureDate;
 	}
 
-	public void setFlightDepartureDate(Timestamp flightDepartureDate) {
+	public void setFlightDepartureDate(LocalDate flightDepartureDate) {
 		this.flightDepartureDate = flightDepartureDate;
 	}
 	
