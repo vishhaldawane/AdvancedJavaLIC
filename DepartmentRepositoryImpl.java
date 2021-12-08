@@ -32,7 +32,7 @@ public class DepartmentRepositoryImpl implements DepartmentRepository {
 			Statement statement = conn.createStatement();
 			System.out.println("statement created..."+statement);
 			
-			ResultSet result = statement.executeQuery("select * from dept where deptno=20");
+			ResultSet result = statement.executeQuery("select * from dept");
 			System.out.println("Got the result set : "+result);
 		
 			while(result.next()) {
@@ -70,8 +70,27 @@ public class DepartmentRepositoryImpl implements DepartmentRepository {
 
 	@Override
 	public Department selectDepartment(int deptno) {
-		// TODO Auto-generated method stub
-		return null;
+		Department deptObj = null;
+		try {
+	//3
+			Statement statement = conn.createStatement();
+			System.out.println("statement created..."+statement);
+			
+			ResultSet result = statement.executeQuery("select * from dept where deptno="+deptno);
+			System.out.println("Got the result set : "+result);
+	
+			if(result.next()) {
+				deptObj = new Department();
+				deptObj.setDepartmentNumber(result.getInt(1));
+				deptObj.setDepartmentName(result.getString(2));
+				deptObj.setDepartmentLocation(result.getString(3));
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return deptObj;
 	}
 
 	@Override
