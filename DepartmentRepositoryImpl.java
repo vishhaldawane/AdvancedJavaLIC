@@ -2,6 +2,7 @@ package com.java.repository;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -28,21 +29,6 @@ public class DepartmentRepositoryImpl implements DepartmentRepository {
 					"system","tiger");
 			System.out.println("Connected to the DB : "+conn); 
 			
-			//3
-			Statement statement = conn.createStatement();
-			System.out.println("statement created..."+statement);
-			
-			ResultSet result = statement.executeQuery("select * from dept");
-			System.out.println("Got the result set : "+result);
-		
-			while(result.next()) {
-				Department deptObj = new Department();
-				deptObj.setDepartmentNumber(result.getInt(1));
-				deptObj.setDepartmentName(result.getString(2));
-				deptObj.setDepartmentLocation(result.getString(3));
-				deptList.add(deptObj);
-			}
-			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -53,18 +39,53 @@ public class DepartmentRepositoryImpl implements DepartmentRepository {
 	@Override
 	public void insertDepartment(Department dept) {
 		// TODO Auto-generated method stub
-
+		try {
+			PreparedStatement pst = conn.prepareStatement("insert into dept values (?,?,?)");
+			pst.setInt(1, dept.getDepartmentNumber());
+			pst.setString(2, dept.getDepartmentName());
+			pst.setString(3, dept.getDepartmentLocation());
+			int rows = pst.executeUpdate(); // fire the query
+			System.out.println("Record inserted...."+rows);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	@Override
 	public void updateDepartment(Department dept) {
 		// TODO Auto-generated method stub
+		try {
+			PreparedStatement pst = conn.prepareStatement("update dept set dname=?, loc=? where deptno=?");
+			
+			pst.setString(1, dept.getDepartmentName());
+			pst.setString(2, dept.getDepartmentLocation());
+			pst.setInt(3, dept.getDepartmentNumber());
+			
+			int rows = pst.executeUpdate(); // fire the query
+			System.out.println("Record update...."+rows);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
 
 	}
 
 	@Override
 	public void deleteDepartment(int deptno) {
-		// TODO Auto-generated method stub
+		try {
+			PreparedStatement pst = conn.prepareStatement("delete from dept where deptno=?");
+			
+			pst.setInt(1, deptno);
+			
+			
+			int rows = pst.executeUpdate(); // fire the query
+			System.out.println("Record deleted...."+rows);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 	}
 
@@ -95,6 +116,26 @@ public class DepartmentRepositoryImpl implements DepartmentRepository {
 
 	@Override
 	public List<Department> selectDepartments() {
+		
+		//3
+		try {
+			Statement statement = conn.createStatement();
+			System.out.println("statement created..."+statement);
+			
+			ResultSet result = statement.executeQuery("select * from dept");
+			System.out.println("Got the result set : "+result);
+
+			while(result.next()) {
+				Department deptObj = new Department();
+				deptObj.setDepartmentNumber(result.getInt(1));
+				deptObj.setDepartmentName(result.getString(2));
+				deptObj.setDepartmentLocation(result.getString(3));
+				deptList.add(deptObj);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return deptList;
 	}
 
