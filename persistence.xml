@@ -1,28 +1,45 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<persistence xmlns="http://java.sun.com/xml/ns/persistence"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd"
-	version="2.0">
+<persistence xmlns="http://xmlns.jcp.org/xml/ns/persistence" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence
+             http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd"
+  version="2.1">
 
-	<persistence-unit name="MyJPA">
-		  <provider>org.hibernate.ejb.HibernatePersistence</provider> 
-		 <!-- <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider> --> 
-
-		<properties>
-			<!-- JPA 2.0 -->
-			
-		 <property name="javax.persistence.jdbc.driver" value="oracle.jdbc.OracleDriver" />
+  <persistence-unit name="MyJPA">
+    
+    <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+    
+    <properties>
+      <property name="hibernate.temp.use_jdbc_metadata_defaults" value="false" />
+ 
+      							<!--  this line only for hsqldb -->
+      <property name="hibernate.dialect" value="org.hibernate.dialect.Oracle12cDialect" />
+      <property name="hibernate.show_sql" value="true" />
+    <!--   <property name="hibernate.hbm2ddl.auto" value="update" /> -->
+      
+      
+       <property name="javax.persistence.jdbc.driver" value="oracle.jdbc.OracleDriver" />
 		 <property name="javax.persistence.jdbc.url" value="jdbc:oracle:thin:@localhost:1521:xe" />
 		 <property name="javax.persistence.jdbc.user" value="system" />
 		 <property name="javax.persistence.jdbc.password" value="tiger" /> 
 		
-			<!-- ORM Specific -->
+    
+        <!-- JDBC connection pool settings ... using built-in test pool -->
+        <property name="connection.pool_size" value="1" />
+        
+         
+        <!-- Set the current session context -->
+        <property name="current_session_context_class" value="thread" />
+        
+        <!-- dbcp connection pool configuration -->
+        <property name="hibernate.dbcp.initialSize" value="5" />
+        <property name="hibernate.dbcp.maxTotal" value="20" />
+        <property name="hibernate.dbcp.maxIdle" value="10" />
+        <property name="hibernate.dbcp.minIdle" value="5" />
+        <property name="hibernate.dbcp.maxWaitMillis" value="-1" />
 		
-			<property name="hibernate.show_sql" value="true" />
-			<property name="hibernate.hbm2ddl.auto" value="update" />
-			<property name="hibernate.cache.use_second_level_cache" value="false" />
-			<property name="hibernate.cache.region.factory_class" value="org.hibernate.cache.ehcache.SingletonEhCacheRegionFactory" />			
-		</properties>
-						
-	</persistence-unit>
+    </properties>
+
+  </persistence-unit>
+  
 </persistence>
