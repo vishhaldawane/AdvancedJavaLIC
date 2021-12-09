@@ -1,141 +1,79 @@
-package com.java.repository;
+package com.java;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+
 import java.util.ArrayList;
 import java.util.List;
 
-import com.java.entity.Department;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.EntityTransaction;
+import javax.persistence.Persistence;
+import javax.persistence.Query;
+
+//import com.java.entity.Department;
 
 public class DepartmentRepositoryImpl implements DepartmentRepository {
 
 	List<Department> deptList = new ArrayList<Department>();
 	
-	Connection conn; //global connection available to all the methods
+	EntityManager entityManager;
 	
 	public DepartmentRepositoryImpl() {
-		try {
-			//1
-			DriverManager.registerDriver(new oracle.jdbc.OracleDriver());
-			System.out.println("Driver registered....");
+		EntityManagerFactory entityManagerFactory =
+				Persistence.createEntityManagerFactory("MyJPA");
+		System.out.println("Entity Manager Factory : "+entityManagerFactory);
+		
+		entityManager = entityManagerFactory.createEntityManager();
+		System.out.println("Entity manager : "+entityManager);
 			
-			//2
-			this.conn = DriverManager.getConnection(
-					"jdbc:oracle:thin:@localhost:1521:XE",
-					"system","tiger");
-			System.out.println("Connected to the DB : "+conn); 
-			
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
 	}
 
 	@Override
 	public void insertDepartment(Department dept) {
-		// TODO Auto-generated method stub
-		try {
-			PreparedStatement pst = conn.prepareStatement("insert into dept values (?,?,?)");
-			pst.setInt(1, dept.getDepartmentNumber());
-			pst.setString(2, dept.getDepartmentName());
-			pst.setString(3, dept.getDepartmentLocation());
-			int rows = pst.executeUpdate(); // fire the query
-			System.out.println("Record inserted...."+rows);
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		EntityTransaction transaction = entityManager.getTransaction();
+		transaction.begin();
+			entityManager.persist(dept);
+		transaction.commit();
 	}
 
 	@Override
 	public void updateDepartment(Department dept) {
-		// TODO Auto-generated method stub
-		try {
-			PreparedStatement pst = conn.prepareStatement("update dept set dname=?, loc=? where deptno=?");
-			
-			pst.setString(1, dept.getDepartmentName());
-			pst.setString(2, dept.getDepartmentLocation());
-			pst.setInt(3, dept.getDepartmentNumber());
-			
-			int rows = pst.executeUpdate(); // fire the query
-			System.out.println("Record update...."+rows);
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
+		EntityTransaction transaction = entityManager.getTransaction();
+		transaction.begin();
+			entityManager.merge(dept);
+		transaction.commit();
+		
 
 	}
 
 	@Override
 	public void deleteDepartment(int deptno) {
-		try {
-			PreparedStatement pst = conn.prepareStatement("delete from dept where deptno=?");
-			
-			pst.setInt(1, deptno);
-			
-			
-			int rows = pst.executeUpdate(); // fire the query
-			System.out.println("Record deleted...."+rows);
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		EntityTransaction transaction = entityManager.getTransaction();
+		transaction.begin();
+			Department dept = entityManager.find(Department.class,deptno);
+			entityManager.remove(dept);
+		transaction.commit();
 
 	}
 
 	@Override
 	public Department selectDepartment(int deptno) {
-		Department deptObj = null;
-		try {
-	//3
-			Statement statement = conn.createStatement();
-			System.out.println("statement created..."+statement);
-			
-			ResultSet result = statement.executeQuery("select * from dept where deptno="+deptno);
-			System.out.println("Got the result set : "+result);
-	
-			if(result.next()) {
-				deptObj = new Department();
-				deptObj.setDepartmentNumber(result.getInt(1));
-				deptObj.setDepartmentName(result.getString(2));
-				deptObj.setDepartmentLocation(result.getString(3));
-			}
-			
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return deptObj;
+		Department dept = entityManager.find(Department.class,deptno);
+		return dept;
 	}
 
 	@Override
 	public List<Department> selectDepartments() {
+		EntityManagerFactory entityManagerFactory =
+				Persistence.createEntityManagerFactory("MyJPA");
+		System.out.println("Entity Manager Factory : "+entityManagerFactory);
 		
-		//3
-		try {
-			Statement statement = conn.createStatement();
-			System.out.println("statement created..."+statement);
+		EntityManager entityManager = entityManagerFactory.createEntityManager();
+		System.out.println("Entity manager : "+entityManager);
 			
-			ResultSet result = statement.executeQuery("select * from dept");
-			System.out.println("Got the result set : "+result);
-
-			while(result.next()) {
-				Department deptObj = new Department();
-				deptObj.setDepartmentNumber(result.getInt(1));
-				deptObj.setDepartmentName(result.getString(2));
-				deptObj.setDepartmentLocation(result.getString(3));
-				deptList.add(deptObj);
-			}
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+			Query query = entityManager.createQuery("from Department");//<-JPQL     and NOT -> SQL "from dept" <-- is invalid
+			List<Department> deptList = query.getResultList();
+			
 		return deptList;
 	}
 

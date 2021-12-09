@@ -1,8 +1,8 @@
-package com.java.repository;
+package com.java;
 
 import java.util.List;
 
-import com.java.entity.Department;
+//import com.java.entity.Department;
 
 public interface DepartmentRepository {
 	void insertDepartment(Department dept);
