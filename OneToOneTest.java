@@ -37,6 +37,7 @@ public class OneToOneTest {
 	@Test
 	public void insertNewPassportTest() {
 		
+		
 		BaseRepository baseRepo = new BaseRepository();
 		
 		Passport passport1 = new Passport();
@@ -123,4 +124,45 @@ public class OneToOneTest {
 		
 		
 	}
+	
+	
+	@Test
+	public void addNewPersonWithNewPassportTest()
+	{
+		
+		BaseRepository baseRepo = new BaseRepository();
+		
+		Person person1 = new Person();
+		person1.setPersonName("Jack");
+		person1.setBirthDate(LocalDate.of(1999, 01, 14));
+		
+		
+		Passport passport1 = new Passport();
+		passport1.setIssuedBy("Govt.Of Nepal");
+		passport1.setIssuedOn(LocalDate.of(2020, 01, 14));
+		passport1.setExpiryOn(LocalDate.of(2030, 01, 14));
+	
+		person1.setPassport(passport1);
+		//passport1.setPerson(person1);
+		
+		baseRepo.persist(person1);
+		//baseRepo.persist(passport1);
+	
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 }
