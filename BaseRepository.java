@@ -14,14 +14,14 @@ import com.java.entity.Department;
 public class BaseRepository {
 	
 		EntityManager entityManager;
-	
+		EntityManagerFactory entityManagerFactory ;
+		
 		public BaseRepository() {
-			EntityManagerFactory entityManagerFactory =
+			 entityManagerFactory =
 					Persistence.createEntityManagerFactory("MyJPA");
 			System.out.println("Entity Manager Factory : "+entityManagerFactory);
-			
 			entityManager = entityManagerFactory.createEntityManager();
-			System.out.println("Entity manager : "+entityManager);
+			
 		}
 
 		public EntityManager getEntityManager() {
@@ -32,6 +32,8 @@ public class BaseRepository {
 		public void persist(Object obj) { //persist is a dummy/userdefined name
 			
 			try {
+				EntityManager entityManager = entityManagerFactory.createEntityManager();
+				System.out.println("Entity manager : "+entityManager);
 					EntityTransaction trans = entityManager.getTransaction();
 					trans.begin();
 					entityManager.persist(obj);
@@ -46,6 +48,8 @@ public class BaseRepository {
 		T find(Class<T> theClass, Serializable pk ) {
 			T foundObj = null;
 			try {			
+				EntityManager entityManager = entityManagerFactory.createEntityManager();
+				System.out.println("Entity manager : "+entityManager);
 				foundObj = entityManager.find(theClass, pk);	
 			} finally { entityManager.close(); }
 				return foundObj;
@@ -54,6 +58,8 @@ public class BaseRepository {
 	
 		public <E> List  findAll(String pojoName) {
 			try {			
+				EntityManager entityManager = entityManagerFactory.createEntityManager();
+				System.out.println("Entity manager : "+entityManager);
 				Query query = entityManager.createQuery(" from "+ pojoName); //its not sql, hence it is NOT select * from dept, rather it is select * from Department 
 				return query.getResultList();
 			} finally { entityManager.close(); }
@@ -63,6 +69,8 @@ public class BaseRepository {
 		public void merge(Object obj) { //update query, if the record doesnot exist, it will insert else update 
 			
 			try {
+				EntityManager entityManager = entityManagerFactory.createEntityManager();
+				System.out.println("Entity manager : "+entityManager);
 				EntityTransaction trans = entityManager.getTransaction();
 				trans.begin();
 				entityManager.merge(obj); //<--real call for jdbc here	
@@ -74,6 +82,8 @@ public class BaseRepository {
 	
 		public <AnyClass> void remove(Class<AnyClass> theClass, Serializable pk) {
 		try {
+			EntityManager entityManager = entityManagerFactory.createEntityManager();
+			System.out.println("Entity manager : "+entityManager);
 			EntityTransaction trans = entityManager.getTransaction();
 			trans.begin();
 				AnyClass anyClass = entityManager.find(theClass, pk);
