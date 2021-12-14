@@ -1,43 +1,50 @@
 package com.java;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-@Component
+@Component("myCar")
 public class Car {
-	private Engine engine;
+	
+	@Autowired
+	private Engine engine; // Engine's object is directly injected here 
+	
 	private String color;
+	
+	@Autowired
 	private Wheel wheel;
 	
-	public Car() {
+/*	public Car() {
 		//super();
 		System.out.println("Car() constructor..."+this);
-	}
+	}*/
 	
-	/*
-	 * public Car(Engine engine) { super(); this.engine = engine;
-	 * System.out.println("Car(Engine) constructor..."+this); }
-	 */
-	
+	/* @Autowired
+	 public Car(Engine engine) { 
+		 super(); this.engine = engine;
+	  	System.out.println("Car(Engine) constructor..."+this); 
+	 }*/
 
-	 public void setEngine(Engine engine) { 
+/*	 public void setEngine(Engine engine) { 
 		 this.engine = engine;
 		 System.out.println("setEngine(Engine) ..."+this); 
-	}
+	}*/
 	
-	 public void setColor(String color) { 
+/*	 public void setColor(String color) { 
 		 this.color = color;
 		 System.out.println("setColor(String) ..."+this); 
 	}
-	
+	*/
 
-	 public void setWheel(Wheel wheel) { 
+	/* public void setWheel(Wheel wheel) { 
 		 this.wheel= wheel;
 		 System.out.println("setWheel(Wheel) ..."+this); 
 	}
-	 
+	 */
 	public void startTheCar() {
 		engine.ignite();
-		System.out.println("Car is started....");
+		System.out.println("Car is started...."+engine);
+		System.out.println("Car's wheel...."+wheel);
 	}
 }
 /*

@@ -2,10 +2,10 @@ package com.java;
 
 import org.springframework.stereotype.Component;
 
-@Component
+@Component("myWheel")
 public class Wheel {
 
 	public Wheel() {
-		System.out.println("Wheel() constructor...");
+		System.out.println("Wheel() constructor..."+this);
 	}
 }

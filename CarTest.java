@@ -16,9 +16,10 @@ public class CarTest {
 		System.out.println("Loaded the spring container...");
 		
 	
-	/*	Car theCar1 = (Car) ctx.getBean("myCar");
+		Car theCar1 = (Car) ctx.getBean("myCar");
 		theCar1.startTheCar();
 		
+	/*	
 		Car theCar2 = (Car) ctx.getBean("myCar");
 		theCar2.startTheCar();
 		
