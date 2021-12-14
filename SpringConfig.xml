@@ -1,0 +1,34 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:tx="http://www.springframework.org/schema/tx" 
+	xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+     http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+     http://www.springframework.org/schema/context
+     http://www.springframework.org/schema/context/spring-context-4.0.xsd
+     http://www.springframework.org/schema/tx
+	 http://www.springframework.org/schema/tx/spring-tx.xsd">
+ 
+ 
+ 	  <bean id="myPiston" class="com.java.Piston">
+ 		<constructor-arg value="TwinSpark"/>
+ 	</bean> 
+ 	
+ 	<bean id="myEngine" class="com.java.Engine" >
+ 		<constructor-arg ref="myPiston"/>
+ 	</bean>  
+ 	
+ 	<bean id="myWheel" class="com.java.Wheel" >
+ 	</bean>  
+ 	
+ 	<bean id="myCar" class="com.java.Car" scope="prototype">
+ 		<!-- <constructor-arg ref="myEngine"/> -->
+ 		 <property name="engine" ref="myEngine"/> 
+ 		 <property name="wheel" ref="myWheel"/>
+ 	</bean>
+	 
+	
+	
+	 
+ </beans>
