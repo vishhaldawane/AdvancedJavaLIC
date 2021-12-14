@@ -1,12 +1,18 @@
 package com.java;
 
+import org.springframework.stereotype.Component;
+
+@Component
 public class Car {
 	private Engine engine;
+	private String color;
 	private Wheel wheel;
-
-	/*public Car() {
+	
+	public Car() {
+		//super();
 		System.out.println("Car() constructor..."+this);
-	}*/
+	}
+	
 	/*
 	 * public Car(Engine engine) { super(); this.engine = engine;
 	 * System.out.println("Car(Engine) constructor..."+this); }
@@ -17,7 +23,12 @@ public class Car {
 		 this.engine = engine;
 		 System.out.println("setEngine(Engine) ..."+this); 
 	}
-	 
+	
+	 public void setColor(String color) { 
+		 this.color = color;
+		 System.out.println("setColor(String) ..."+this); 
+	}
+	
 
 	 public void setWheel(Wheel wheel) { 
 		 this.wheel= wheel;

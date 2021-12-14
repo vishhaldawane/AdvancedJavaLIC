@@ -7,14 +7,16 @@ public class CarTest {
 	public static void main(String[] args) {
 	
 		System.out.println("Loading the spring container...");
-		ApplicationContext ctx = new ClassPathXmlApplicationContext("SpringConfig.xml");
+//		ApplicationContext ctx = new ClassPathXmlApplicationContext("SpringConfig.xml");
+		ApplicationContext ctx = new ClassPathXmlApplicationContext("SpringAnnoConfig.xml");
+		
 		
 		//singleton instance - FlightEnquiry - List getAvailableFlights(s,t,dt)
 		//prototype
 		System.out.println("Loaded the spring container...");
 		
 	
-		Car theCar1 = (Car) ctx.getBean("myCar");
+	/*	Car theCar1 = (Car) ctx.getBean("myCar");
 		theCar1.startTheCar();
 		
 		Car theCar2 = (Car) ctx.getBean("myCar");
@@ -26,6 +28,7 @@ public class CarTest {
 		System.out.println("theCar1 "+theCar1);
 		System.out.println("theCar2 "+theCar2);
 		System.out.println("theCar3 "+theCar3);
+		*/
 		
 		System.out.println();
 	}
