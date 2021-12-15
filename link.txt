@@ -1,1 +1,9 @@
-https://hibernate.org/orm/releases/5.4/
+spring.jpa.hibernate.ddl-auto=update
+spring.datasource.url=jdbc:oracle:thin:@localhost:1521:xe
+spring.datasource.username=system
+spring.datasource.password=tiger
+spring.datasource.driver-class-name=oracle.jdbc.OracleDriver
+spring.jpa.database-platform=org.hibernate.dialect.Oracle12cDialect
+
+spring.jpa.generate-ddl=true
+spring.jpa.show-sql=true
