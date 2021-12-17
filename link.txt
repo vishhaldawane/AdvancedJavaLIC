@@ -19,3 +19,6 @@ spring.jpa.show-sql=true
 #spring.mail.password=
 #spring.mail.properties.mail.smtp.starttls.enable=true
 #spring.mail.properties.mail.smtp.auth=true
+
+
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.6.0.min.js">
